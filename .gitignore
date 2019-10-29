@@ -1,0 +1,6 @@
+.idea/
+.terraform
+*secret.auto.tfvars
+*.log
+*.tfstate*
+terraform-provider*
