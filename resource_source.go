@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ernesto-arm/go-coveo/pushapi"
+	"github.com/ernesto-arm/go-coveo/sourceapi"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"log"
 	"strings"
@@ -40,13 +40,13 @@ func resourceSource() *schema.Resource {
 
 func resourceSourceCreate(d *schema.ResourceData, m interface{}) error {
 	log.Printf("Creating resource %s", d.Get("name"))
-	Source := pushapi.Source{
+	Source := sourceapi.Source{
 		Name:       d.Get("name").(string),
 		Type:       strings.ToUpper(d.Get("type").(string)),
 		Visibility: strings.ToUpper(d.Get("visibility").(string)),
 		Enabled:    d.Get("push_enabled").(bool),
 	}
-	resp, err := m.(pushapi.Client).CreateSource(Source)
+	resp, err := m.(sourceapi.Client).CreateSource(Source)
 	if err != nil {
 		return fmt.Errorf("error when trying to create a source %s with message %s", d.Get("name"), err.Error())
 	}
@@ -69,7 +69,7 @@ func resourceSourceCreate(d *schema.ResourceData, m interface{}) error {
 
 func resourceSourceRead(d *schema.ResourceData, m interface{}) error {
 	// Attempt to read from an upstream API
-	s, err := m.(pushapi.Client).ReadSource(d.Id())
+	s, err := m.(sourceapi.Client).ReadSource(d.Id())
 
 	if err != nil {
 		d.SetId("")
@@ -90,14 +90,14 @@ func resourceSourceRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceSourceUpdate(d *schema.ResourceData, m interface{}) error {
-	Source := pushapi.Source{
+	Source := sourceapi.Source{
 		Id: 		d.Id(),
 		Name:       d.Get("name").(string),
 		Type:       strings.ToUpper(d.Get("type").(string)),
 		Visibility: strings.ToUpper(d.Get("visibility").(string)),
 		Enabled:    d.Get("push_enabled").(bool),
 	}
-	resp, err := m.(pushapi.Client).UpdateSource(d.Id(), Source)
+	resp, err := m.(sourceapi.Client).UpdateSource(d.Id(), Source)
 	if err != nil {
 		return fmt.Errorf("error when trying to update a source %s with message %s", d.Id(), err.Error())
 	}
@@ -117,7 +117,7 @@ func resourceSourceUpdate(d *schema.ResourceData, m interface{}) error {
 
 
 func resourceSourceDelete(d *schema.ResourceData, m interface{}) error {
-	err := m.(pushapi.Client).DeleteSource(d.Id())
+	err := m.(sourceapi.Client).DeleteSource(d.Id())
 	if err != nil {
 		return fmt.Errorf("error deleting the source %s with message %s", d.Id(), err.Error())
 	}

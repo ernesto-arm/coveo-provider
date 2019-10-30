@@ -2,6 +2,9 @@
 Created this provider to be able to manage coveo source (push mainly) for each environment in terraform.
 Feel free to add more functionality.
 
+*Disclaimer:* This functionality is only intended for fulfilling my needs of creating/destroying PUSH sources in terraform.
+I haven't test any other source type.
+
 #### Supported functionality:
 - Source (CRUD)
 

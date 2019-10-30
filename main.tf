@@ -7,7 +7,7 @@ resource "coveo_source" "my-source" {
     name = "my-push-source-from-terraform"
     type = "PUSH"
     visibility = "SHARED"
-    push_enabled = false
+    push_enabled = true //if selected push then push_enabled = true other 412
 }
 
 output "source-id" {

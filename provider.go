@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ernesto-arm/go-coveo/pushapi"
+	"github.com/ernesto-arm/go-coveo/sourceapi"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"log"
 )
@@ -30,12 +30,12 @@ func Provider() *schema.Provider {
 func providerConfigure(d *schema.ResourceData)(interface{}, error){
 	log.Printf("[INFO] getting the configuration ")
 
-	pushConfig := pushapi.Config{
+	pushConfig := sourceapi.Config{
 		OrganizationID: d.Get("organization_id").(string),
 		APIKey:         d.Get("api_key").(string),
 	}
 
-	client, err := pushapi.NewClient(pushConfig)
+	client, err := sourceapi.NewClient(pushConfig)
 
 	if err != nil {
 		log.Printf("[ERROR] Coveo client errord with %s", err.Error())
